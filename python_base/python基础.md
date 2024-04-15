@@ -139,3 +139,61 @@ a = (2, 3)
 a[0] = 1 # 会报错
 a = (1, 3) # 只能重新声明变量进行改变
 ```
+## 字典
+字典是由一系列*键值对*组成的动态结构，字典的值可以是任意python对象<br>
+**定义字典**
+```python
+dict0 = {} # 定义一个空字典
+dict0 =  {
+    'name': 'Bob',
+    'age': 0,
+    } # 定义一个有元素的字典，键-值之间用冒号分割，键值对之间用逗号分隔
+```
+**字典增、删、改**
+```python
+dict0['name'] = 'Tom' # 新增一个键值对：'name': 'Tom'
+dict0['name'] = 'Alice' # 修改'name'对应的值为'Alice'
+del dict0['name'] # 删除name键值对
+```
+
+**遍历字典**
+```python
+print(dict0['name']) # 访问字典中name这个键对应的值
+var = dict0.get('name', None) # 获取字典中name这个键的值，键不存在则返回None
+# 遍历字典所有的键值对
+for key, value in dict0.items():
+    print(key, value)
+# 遍历字典所有的键
+for key in dict0.keys():
+    print(key)
+# 遍历字典中所有的值
+for value in dict0.values():
+    print(value)
+```
+**嵌套**<br>
+嵌套一般是指列表和字典相互嵌套，列表字典、字典列表、字典嵌套字典、列表嵌套列表四种
+```python
+list_dict = [{'name': 'Tom', 'age': 18}, {'name': 'Alice', 'age': 16}] # 字典列表
+dict_list = {
+    'user': ['Alice', 'Bob', 'Tom'],
+    'age': [61, 18, 24],
+} # 列表字典
+lists = [[1, 2, 3, 5,], [3, 6, 7, 8, 10]] # 列表中嵌套列表
+dicts = {
+    'Alice':{
+       'name': 'Alice',
+       'age': 16, 
+    },
+    'Tom':{
+        'name': 'Tom',
+        'age': 16,
+    },
+} # 字典中嵌套字典
+```
+# 流程控制
+## if语句
+
+## while循环
+
+## for循环
+
