@@ -192,8 +192,76 @@ dicts = {
 ```
 # 流程控制
 ## if语句
-
-## while循环
-
-## for循环
-
+**if语句**<br>
+用于判断后面的的布尔表达式（紧跟在判断之后的表达式，计算结果为True或False），为True时执行冒号后缩进内容，否则不执行
+```python
+a = 10
+if a > 0:
+    print('{a} is greater than zero')
+```
+**if-else语句**<br>
+当布尔表达式为True时执行if后跟着的缩进代码，为False时执行else后跟着的缩进代码
+```python
+a = -1
+if a > 0:
+    print('{a} is greater than zero')
+else:
+    print('{a} is less than zero')
+```
+**if-elif-else**<br>
+此语句支持多个条件判定，根据需要，elif可以有很多个，if和elif中当布尔表达式为True时，则会执行对应的语句后缩进的代码，都不满足时则会执行else中的代码，注意：**else不是必要的**
+```python
+a = 0
+if a > 0:
+    print('{a} is greater than zero')
+elif a == 0:
+    print('{a} is equal to zero')
+else:
+    print('{a} is less than zero')
+```
+**逻辑运算符**<br>
+逻辑运算符：与（and）、或（or）、非（not）<br>
+逻辑运算符用于组合多个条件的结果<br>
+算数比较：大于(>)，小于(<)，**等于(==)**，大于等于(>=)，小于等于(<=), 不等于(!=)<br>
+算数比较符号用于比较数字的大小
+```python
+score = int(input("input students's score: "))
+if a > 80:
+    print("great")
+elif a > 70 and a < 80:
+    print("good")
+elif a <= 70 and a >= 60:
+    print('normal')
+```
+## 循环
+### while循环
+while循环是一种条件循环，当循环条件被满足时就会执行后续缩进的代码内容，当循环条件不满足时，就会退出循环<br>
+特别需要注意循环体内一定要有促进循环结束的相关代码，否则就变成了死循环，大多数情况相爱，死循环不是一个好现象
+```python
+a = 0
+while a < 10: # 只要a < 10成立就会进入循环
+    print('loop, num is {a}')
+    a += 1
+```
+### for循环
+for循环常用于用于遍历一些元素，例如：列表，遍历结束时则循环结束
+```python
+a = [1, 2, 3, 4, 5]
+for i in a: # 遍历a列表中的所有元素
+    print(i)
+```
+### 循环控制
+**braak与continue**<br>
+break: 结束当前循环<br>
+contiue: 结束当次循环，直接进入下一次循环
+```python
+for i in range(1, 100):
+    if i > 50:
+        print(i)
+        break # 结束当前循环，执行循环体后面的语句
+    elif i % 2 == 0:
+        print('{i} is good num')
+    else:
+        continue # 进入下一次循环
+print('done')
+```
