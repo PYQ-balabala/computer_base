@@ -1,3 +1,5 @@
-a = (2, 3)
-print(a[0]) # 会报错
-a = (1, 3) # 只能重新声明变量进行改变
+def print_info(first_name, last_name, **kwargs):
+    print(f'hello {first_name} {last_name}')
+    for k, v in kwargs.items():
+        print(f'{k}, {v}')
+print_info('Tony', 'christo', dev='computer', favrite='bool')

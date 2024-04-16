@@ -266,3 +266,73 @@ for i in range(1, 100):
 print('done')
 ```
 # 函数
+函数是带有名字的代码块，通常用于完成某一项功能，在实际开发中，通过调用函数，可以减少冗余代码<br>
+**函数定义**<br>
+通过关键字def定义函数
+```python
+def func():
+    pass
+```
+## 参数
+```python
+def print_info(first_name, last_name):
+    print(f'hello {first_name} {last_name}')
+print_info('Tony', 'christo')
+```
+上述代码可以看书，函数可以定义一些函数运行中需要从外部传入的参数，函数定义的参数称之为**形参**，实际运行中传入的参数称之为实参，调用过程可以理解成**实参赋值给形参**
+### 位置参数
+```python
+def print_info(first_name, last_name):
+    print(f'hello {first_name} {last_name}')
+print_info('Tony', 'christo') # 打印'hello Tony christo'
+print_info('christo', 'Tony') # 打印'hello christo Tony'
+```
+上述代码两次调用函数的结果并不相同，这就是位置参数，所谓位置参数，就是在有多个参数时，python仅通过传入参数的顺序将其提供给对应的形参，即使结果也许并不是我们想要的
+### 关键字参数
+```python
+def print_info(first_name, last_name):
+    print(f'hello {first_name} {last_name}')
+print_info(first_name = 'Tony', last_name='christo') # 打印'hello Tony christo'
+```
+上述这种显示的指定形参与实参的方式称之为关键字参数，在函数调用时显示的指出形参与对应实参，下面这两种调用所得到的结果是一致的，由于显示的支出了形参和实参，因此顺序就不再影响函数的执行结果
+```python
+print_info(first_name = 'Tony', last_name='christo') # 打印'hello Tony christo'
+print_info(last_name='christo', first_name = 'Tony') # 打印'hello Tony christo'
+```
+### 参数默认值
+参数的默认值有两种用途<br>
+1、为了提高代码的健壮性，我们需要提供给函数参数默认值以避免因调用问题导致的代码崩溃<br>
+2、为了实现一些参数的缺省，有的参数不是所有情况下都一定会传入的，此时我们可以给不一定传入的参数指定一个默认值<br>
+```python
+def print_info(first_name, last_name, mid_name = None):
+    if mid_name is None:
+        print(f'hello {first_name} {last_name}')
+    else:
+        print(f'hello {first_name} {mid_name} {last_name}')
+print_info('Tony', 'christo') # 打印'hello Tony christo'
+print_info('Tony', 'christo', 'stack') # 打印'hello Tony stack christo'
+```
+值得注意的是，*带有默认值的参数定义时要放在没有默认值的参数后面*
+### 不定项参数
+想象这样一个场景，我写了一个函数，这个函数在未来也许还会有其他的参数传入，那么我想在函数定义时让函数具备一定的延展性，那该怎么做呢，此时可以用到不定项参数。<br>
+***args**
+```python
+def print_info(first_name, last_name, *args):
+    print(f'hello {first_name} {last_name}')
+    for i in args:
+        print(i)
+print_info('Tony', 'christo', 'a', 'b', 'c', 'd')
+```
+上面的*args代表不固定数量的参数，这些传入的参数在执行过程中被转换成元组类型，可以通过访问元组元素的方式进行使用
+
+****kwargs**
+```python
+def print_info(first_name, last_name, **kwargs):
+    print(f'hello {first_name} {last_name}')
+    for k, v in kwargs.items():
+        print(f'{k}, {v}')
+print_info('Tony', 'christo', dev='computer', favrite='bool')
+```
+上述的**kwargs也代表不固定数量的参数，这些传入的参数在执行过程中被转换成字典类型，因此可以通过访问字典的方式进行使用<br>
+不定项参数使得我们在函数需要用心的参数实现新的功能时不必修改函数的定义，只需要传入新的参数，并新的参数执行即可，提高了代码的扩展性<注意>
+如果要同时使用*args和\**kwargs，那么\*args要放在\**kwargs的前面
