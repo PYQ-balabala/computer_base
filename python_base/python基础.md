@@ -265,3 +265,4 @@ for i in range(1, 100):
         continue # 进入下一次循环
 print('done')
 ```
+# 函数
