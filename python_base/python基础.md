@@ -336,3 +336,26 @@ print_info('Tony', 'christo', dev='computer', favrite='bool')
 上述的**kwargs也代表不固定数量的参数，这些传入的参数在执行过程中被转换成字典类型，因此可以通过访问字典的方式进行使用<br>
 不定项参数使得我们在函数需要用心的参数实现新的功能时不必修改函数的定义，只需要传入新的参数，并新的参数执行即可，提高了代码的扩展性<注意>
 如果要同时使用*args和\**kwargs，那么\*args要放在\**kwargs的前面
+## 函数返回值
+函数执行后返回给外部的内容称为**函数返回值**，任何的python对象都可以作为函数返回值，包括数字、列表、字典、字符串等，函数也可以作为函数返回值；通过**return**g
+```python
+def get_full_name(first_name, last_name):
+    full_name = first_name + ' ' + last_name 
+    return full_name.title()
+```
+
+## 通过模块导入函数
+通过**from**、**import**关键字可以从指定模块文件中导入函数，还可以通过**as*关键字为导入的内容取别名<br>
+demo.py
+```python
+def get_full_name(first_name. last_name):
+    full_name = first_name + ' ' + last_name
+    return full_name.title()
+```
+test.py
+```python
+from demo import get_full_name as format_name
+full_name == format_name('tony', 'christo')
+print(full_name)
+```
+# 类

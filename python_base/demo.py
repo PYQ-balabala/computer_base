@@ -1,5 +1,6 @@
-def print_info(first_name, last_name, **kwargs):
-    print(f'hello {first_name} {last_name}')
-    for k, v in kwargs.items():
-        print(f'{k}, {v}')
-print_info('Tony', 'christo', dev='computer', favrite='bool')
+def get_full_name(first_name, last_name, **kwargs):
+    full_name = first_name + ' ' + last_name
+    return full_name.title()
+
+
+get_full_name('Tony', 'christo', dev='computer', favrite='bool')
