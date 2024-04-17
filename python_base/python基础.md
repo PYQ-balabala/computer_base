@@ -359,3 +359,30 @@ full_name == format_name('tony', 'christo')
 print(full_name)
 ```
 # 类
+**类**：一系列公共特征的抽象集合<br>
+**实例**：由类创建的对象，这个过程称之为**类的实例化**<br>
+```python
+class Dog:
+    """common dog class"""
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    
+    def sit(self):
+        print(f"{self.name} sits")
+    
+    def roll(self):
+        print(f"{self.name} is rolling")
+
+    def get_age(self):
+        return self.age
+```
+上述示例中，**类中的函数**称之为**方法**，**类的变量**，如上述示例中的self.age、self.name称之为**属性**<br>
+我们要特别注意"\_\_init\_\_"这个方法，这个方法会在实例创建时自动调用，开头和结尾的双下划綫是为了与其他普通方法区别开来<br>
+self是一个特殊参数，这个参数是**对于实例本身的引用**，换句话说，这个变量始终指向实例自身<br>
+## 类的继承
+一些情况下我们不必从头到尾的完全写类的方法和属性，我们可以在已有类的基础上加上新增的属性和方法便能够更高效的创建新类这种方法也可以让我们更专注于新的特性上，**继承**机制提供了这样的途径
+```python
+class Car:
+    def __init__(self, name, )
+```
