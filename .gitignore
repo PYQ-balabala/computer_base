@@ -3,3 +3,5 @@
 /venv/
 /python_base/demo.py
 /python_base/test.py
+/python_base/pi.txt
+**/__pycache__

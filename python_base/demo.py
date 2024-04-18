@@ -1,4 +1,5 @@
 class Car:
+    """汽车类"""
     def __init__(self, make, model, year):
         self.make = make
         self.model = model
@@ -14,6 +15,7 @@ class Car:
 
 
 class ElectricCar(Car):
+    """电车类"""
     def __init__(self, make, model, year):
         super().__init__(make, model, year)
         self.__battery_size = 40   
