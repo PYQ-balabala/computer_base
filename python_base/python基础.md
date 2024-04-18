@@ -384,5 +384,39 @@ self是一个特殊参数，这个参数是**对于实例本身的引用**，换
 一些情况下我们不必从头到尾的完全写类的方法和属性，我们可以在已有类的基础上加上新增的属性和方法便能够更高效的创建新类这种方法也可以让我们更专注于新的特性上，**继承**机制提供了这样的途径
 ```python
 class Car:
-    def __init__(self, name, )
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+        self.odometer_reading = 0
+
+    def get_descriptive_name(self):
+        long_name = f"{self.year} {self.name}, {self.model}"
+        return long_name.title()
+
+    def read_odometer(self):
+        print(f"this car has {self.odeometer_reading} miles on it")
+
+
+class ElectricCar(Car):
+    def __init__(self, make, model, year):
+        super.__init__(make, model, year)
+        self.__battery_size = 40
+    
+    def describe_battry(self):
+        print(f"This car has  a {self.battery_size}-kmh battery.")
+    
+    def get_descriptive_name(self):
+        print(f"{self.year} {self.name} {self.model} {self.battery}")
+```
+上述代码我们需要关注*ElectricCar*这个类，*class ElectricCar(Car)*这个行代码表示ElectricCar是继承自Car类，继承的类能够访问父类的属性和方法，python提供了关键字*super*使得子类调用父类方法，如__init__方法中就通过super关键字调用了父类Car类中的__init__方法<br>
+同时，我么注意导子类中有一个和父类同名的方法*get_descriptive_name*，这使得子类调用该方法时会调用子类实现的方法，并非父类，这种方式称之为*重写*<br>
+我们还注意到，属性*__battery_size*相比于其他属性在开头多了双下划线，这表示这是一个私有变量，同理，方法名也可以这样，当你不希望外部直接访问这个属性或方法时，这是一个好的方式
+ ## 类的导入
+ 在函数一章中，我们介绍了从模块中导入函数的方法，同样的，我们也能通过**from**、**import**、**as**进行类的导入和重命名；假设前面的类存放在名为car.py的模块文件中
+ ```python
+from car import Car as ca
+from car import ElectricCar
+imort car # 导入整个模块
+from car import * # 导入模块中所有内容，不建议这样做，代码中看不出类的来源，可读性降低
 ```
