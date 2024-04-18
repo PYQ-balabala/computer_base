@@ -5,3 +5,4 @@
 /python_base/test.py
 /python_base/pi.txt
 **/__pycache__
+*.exe
