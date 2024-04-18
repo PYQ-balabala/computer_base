@@ -395,21 +395,21 @@ class Car:
         return long_name.title()
 
     def read_odometer(self):
-        print(f"this car has {self.odeometer_reading} miles on it")
+        print(f"this car has {self.odometer_reading} miles on it")
 
 
 class ElectricCar(Car):
     def __init__(self, make, model, year):
-        super.__init__(make, model, year)
-        self.__battery_size = 40
-    
+        super().__init__(make, model, year)
+        self.__battery_size = 40   
+
     def describe_battry(self):
         print(f"This car has  a {self.battery_size}-kmh battery.")
-    
+
     def get_descriptive_name(self):
-        print(f"{self.year} {self.name} {self.model} {self.battery}")
+        print(f"{self.year} {self.make} {self.model} {self.__battery_size}")
 ```
-上述代码我们需要关注*ElectricCar*这个类，*class ElectricCar(Car)*这个行代码表示ElectricCar是继承自Car类，继承的类能够访问父类的属性和方法，python提供了关键字*super*使得子类调用父类方法，如__init__方法中就通过super关键字调用了父类Car类中的__init__方法<br>
+上述代码我们需要关注*ElectricCar*这个类，*class ElectricCar(Car)*这个行代码表示ElectricCar是继承自Car类，继承的类能够访问父类的属性和方法，python提供了方法*super()*使得子类调用父类方法，如__init__方法中就通过super关键字调用了父类Car类中的__init__方法<br>
 同时，我么注意导子类中有一个和父类同名的方法*get_descriptive_name*，这使得子类调用该方法时会调用子类实现的方法，并非父类，这种方式称之为*重写*<br>
 我们还注意到，属性*__battery_size*相比于其他属性在开头多了双下划线，这表示这是一个私有变量，同理，方法名也可以这样，当你不希望外部直接访问这个属性或方法时，这是一个好的方式
  ## 类的导入
