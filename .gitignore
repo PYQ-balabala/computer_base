@@ -4,5 +4,6 @@
 /python_base/demo*.py
 /python_base/test*.py
 /python_base/demo*.txt
+/python_base/demo*.json
 **/__pycache__
 *.exe

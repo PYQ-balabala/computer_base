@@ -437,8 +437,39 @@ if __name__ == "__main__":
     print(txt)
 ```
 上述代码展示了如何通过三方库来进行文件读写，需要注意的是，write_text方法写入的一定是字符串类型的数据，其他类型的需要转换成字符串类型，下面展示另一种方式<br>
-## **with open**
-*Todo*
+## 使用json文件保存数据
+程序运行过程中的数据是存放在内存中的，程序运行结束时会伴随进程结束而销毁，所以及时的把需要的数据存入文件中是必要的<br>
+**json文件**是一种好的存储格式，json并非python独有，而是一种通用的，因此，也方便共享给其他程序使用，这在多人、多语言开发是会起到很好的效果；python中提供了三方库json来针对json数据进行处理
+```python
+import json
+from pathlib import Path
+a = {"name": "Tom", "age": 24}
+print(type(a))
+path = Path("python_base/demo_json.json")
+json_str = json.dumps(a)
+print(type(json_str))
+path.write_text(json_str, encoding='utf-8')
+content = path.read_text()
+print(content)
+print(type(content))
+content_json = json.loads(content)
+print(content_json)
+print(type(content_json))
+```
+上述代码中，我们使用里*json.dumps()*和*json.loads()*两个方法，json.dumps()方法用于将**python的字典等数据转换成json格式的字符串**，反之，json.loads()用于**将字符串转换成python的字典等数据**;值得注意的是上述代码中我们使用了*type()*来获取变量的类型<br>
+除了上述的处理方法外，python还提供了json.load()和json.dump()两个方法用于读取和写入json文件，其中的r、w则说明是读(r)还是写(w)，常见的还有追加(a)等操作，可以看出，这种方式相对于上面的pathlib，他额外提供的在已有文件末尾追加内容的能力，所以实际开发中要按需选择
+```python
+import json
+a = {"name": "Tom", "age": 24}
+with open('python_base/demo_json1.json', 'w', encoding='utf-8') as f:
+    json.dump(a, f)
+
+with open('python_base/demo_json1.json', 'r', encoding='utf-8') as f:
+    content = json.load(f)
+    print(content)
+    print(type(content))
+```
+上述代码中能够注意到我们采用了*with open*来打开文件，这也是一种读取文件的方式，**f**则是打开的文件对象，通过对文件对象的操作来实现读写文件
 # 异常处理
 程序在运行过程中难免会偶尔出现一些异常，而对于可预见的异常（文件不存在、除0），应当有适当的处理方式，从而来减少因为异常而导致整个程序崩溃的情况
 **try-except**
