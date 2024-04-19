@@ -1,8 +1,8 @@
 /.vscode/
 /.idea/
 /venv/
-/python_base/demo.py
-/python_base/test.py
-/python_base/pi.txt
+/python_base/demo*.py
+/python_base/test*.py
+/python_base/demo*.txt
 **/__pycache__
 *.exe

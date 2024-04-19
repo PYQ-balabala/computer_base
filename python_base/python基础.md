@@ -420,3 +420,105 @@ from car import ElectricCar
 imort car # 导入整个模块
 from car import * # 导入模块中所有内容，不建议这样做，代码中看不出类的来源，可读性降低
 ```
+# 文件读写
+## **pathlib库**<br>
+文件中存放着大量的信息，python中的*pathlib*可以帮助我们快捷的读取和写入文件，只需要提供文件的路径即可
+```python
+from pathlib import Path
+
+if __name__ == "__main__":
+    path = Path('python_base/demo_read.txt') # 提供文件路径创建Path对象
+    info = path.read_text(encoding='utf-8')  # 以utf-8编码读取文件内容
+    txt = ''
+    for i in info.splitlines():              # 把读取到的内容分行来按行处理
+        txt += i.rstrip()
+    path = Path('python_base/demo_write.txt') # 再次提供文件路径创建一个Path对象
+    path.write_text(txt)                      # 以utf-8编码将字符串写入到文件中 
+    print(txt)
+```
+上述代码展示了如何通过三方库来进行文件读写，需要注意的是，write_text方法写入的一定是字符串类型的数据，其他类型的需要转换成字符串类型，下面展示另一种方式<br>
+## **with open**
+*Todo*
+# 异常处理
+程序在运行过程中难免会偶尔出现一些异常，而对于可预见的异常（文件不存在、除0），应当有适当的处理方式，从而来减少因为异常而导致整个程序崩溃的情况
+**try-except**
+```python
+try:
+    res = 5 / 0
+except ZeroDivisionError:
+    print("error!!")
+```
+**try-except-else**
+```python
+a = [0, 1, 2, 3, 4, 5]
+for i in a:
+    try:
+        res = 5 / i
+    except ZeroDivisionError:
+        print("error!!")
+    else:
+        print(f"{res=}")
+```
+上述代码在try-except的基础上加了*else*，else下缩进的代码只会在try代码块没有发生异常时执行；同事我们注意到{res=}这种使用方式相比于传统的变量引用，可以更直观的看出当前的变量和对应的值，当然了，单纯的字符串变量替换并不建议这样使用<br>
+在某些情况下，我们希望一些代码无论是否发生异常，都要执行，此时就需要用到*finally*<br>
+**try-except-else-finally**
+```python
+a = [0, 1, 2, 3, 4, 5]
+for i in a:
+    try:
+        res = 5 / i
+    except ZeroDivisionError:
+        print("error!!")
+    else:
+        print(f"{res=}")
+    finally:
+        print(f"{i=}")
+```
+上述代码中的finally代码块，无论是否有异常发生都一定会执行<br>
+**静默异常**<br>
+运行中并非所有的异常都要暴露给用户，所以，可以静默一些异常，让用户无感知，就当程序一直健康运行<br>
+```python
+a = [0, 1, 2, 3, 4, 5]
+for i in a:
+    try:
+        res = 5 / i
+    except ZeroDivisionError:
+        pass
+    else:
+        print(f"{res=}")
+    finally:
+        print(f"{i=}")
+```
+上述代码中的pass将会在捕获异常时告诉python什么都不需要做，同样的，pass可以作为占位符使用
+```python
+def func():
+    pass
+```
+**抛出异常**<br>
+有些异常我们需要暴露给用户并终止程序的运行，此时可以使用*raise*，同时可以用raise在代码的任意位置主动抛出异常
+```python
+a = [0, 1, 2, 3, 4, 5]
+for i in a:
+    try:
+        res = 5 / i
+    except ZeroDivisionError:
+        raise
+    else:
+        print(f"{res=}")
+    finally:
+        print(f"{i=}")
+```
+**打印异常**
+有时，我们需要将异常信息打印出来，然后继续执行，此时可以采用如下方式
+```python
+a = [0, 1, 2, 3, 4, 5]
+for i in a:
+    try:
+        res = 5 / i
+    except ZeroDivisionError as e:
+        print(e)
+    else:
+        print(f"{res=}")
+    finally:
+        print(f"{i=}")
+```
