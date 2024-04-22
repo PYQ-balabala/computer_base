@@ -539,7 +539,7 @@ for i in a:
     finally:
         print(f"{i=}")
 ```
-**打印异常**
+**打印异常**<br>
 有时，我们需要将异常信息打印出来，然后继续执行，此时可以采用如下方式
 ```python
 a = [0, 1, 2, 3, 4, 5]
@@ -553,3 +553,41 @@ for i in a:
     finally:
         print(f"{i=}")
 ```
+# 测试代码
+对于写的代码，我们通常都需要经过测试，*pytest*是一种常用的代码测试框架，利用他我们可以对函数、类型进行测试，同时pytest提供*夹具*来简化测试代码<br>
+**安装pytest**<br>
+并非所有的库都在python标准库中，对非标准库的三方库，python提供了pip来进行三方库的安装，三方库相比于标准库，它的更新频率更加频繁，标准库只能随着python版本迭代而迭代<br>
+```shell
+# 更新pip
+python -m pip install --upgrade pip
+# 安装三方库
+pip install {package-name}=={version}
+# 指定镜像源
+pip install {package-name}=={version} -i {url}
+# 静态设置镜像源
+pip config set global.index-url {url}
+pip config set global.extra-index-url "{url1} {url2}..."
+```
+上述命令中，安装三方库时{version}不是必须的，同时index-url和extra-index-url分别设置不通的URL，index-url找不到时，会从extra-index-url中查找；另外安装三方库之前更新pip是一个好习惯<br>
+**测试代码**<br>
+pytest的执行原理为:运行pytest时，会去寻找当前目录下*test*开头的文件，然后在文件中寻找*test*开头的方法并执行它<br>
+demo.py
+```python
+def func(first_name, last_name):
+    full_name = f"{first_name} {last_name}"
+    return full_name.title()
+```
+test_demo.py
+```python
+from demo import func
+
+def test_demo():
+    full_name = func("tony", "christo")
+    assert full_name == "Tony christo" 
+```
+测试通过
+![alt text](image.png)
+可以出，测试通过时，pytest打印的信息分别有测试时的环境信息*platform win32 --Python 3.11.3, pytest-8.1.1, pluggy-1.5.0*，同时还有执行的目录*rootdir: D:\code*以及多少个案例*collect 1 item*，在执行结果上*python_base\test_demo.py .*这个信息高速我们执行的是哪一个模块的案例，后面的"."表示测试通过，一个点代表通过了一个测试案例
+测试失败
+![alt text](image-1.png)
+测试失败时的打印信息相比于成功时更为丰富，因为我们需要更丰富的信息来进行问题的排查，也可以看出"F"代替了原来的"."，F就代表失败

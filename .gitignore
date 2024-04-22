@@ -7,3 +7,4 @@
 /python_base/demo*.json
 **/__pycache__
 *.exe
+/python_base/test_*
