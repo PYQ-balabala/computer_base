@@ -591,3 +591,66 @@ def test_demo():
 测试失败
 ![alt text](image-1.png)
 测试失败时的打印信息相比于成功时更为丰富，因为我们需要更丰富的信息来进行问题的排查，也可以看出"F"代替了原来的"."，F就代表失败
+**夹具(fixture)**
+夹具是pytest很强大的工具，形式上看，夹具实际上是一系列的装饰器，通过这个，我们可以扩展测试的能力以及提高测试效率，下面来看一个例子
+demo.py
+```python
+class AnyOne:
+    def __init__(self, first_name, last_name, mid_name="") -> None:
+        self.first_name = first_name
+        self.last_name = last_name
+        self.mid_name = mid_name
+
+    def func1(self):
+        if self.mid_name == "":
+            full_name = f"{self.first_name} {self.last_name}"
+        else:
+            full_name = f"{self.first_name} {self.mid_name} {self.last_name}"
+        return full_name.title()
+
+    def func2(self):
+        if self.mid_name == "":
+            full_name = f"{self.first_name} {self.last_name}"
+        else:
+            full_name = f"{self.first_name} {self.mid_name} {self.last_name}"
+        return full_name.upper()
+```
+我们需要对func1和func2进行测试，name测试代码该如何写呢?
+方法1：
+```python
+from demo import AnyOne
+
+
+def test_first_last_name_title():
+    full_name = AnyOne("tony", "christo").func1()
+    assert full_name == "Tony Christo"
+
+
+def test_first_mid_last_name_upper():
+    full_name = AnyOne("tony", "christo").func2()
+    assert full_name == "TONY CHRISTO"
+```
+上面是一种方法，通过直接增加测试函数，每一个函数都有一个新的实例，执行结果
+![alt text](image-2.png)
+我们注意到，每一个方法都实例化了一个对象，代码看起来显得臃肿，下面通过fixture进行优化
+```python
+from demo import AnyOne
+import pytest
+
+
+@pytest.fixture
+def func():
+    test_demo = AnyOne("tony", "christo")
+    return test_demo
+
+
+def test_first_last_name_title(func):
+    assert func.func1() == "Tony Christo"
+
+
+def test_first_mid_last_name_upper(func):
+    assert func.func2() == "TONY CHRISTO"
+```
+上述代码中我们使用*@pytest.fixture*这个装饰器，同时两个函数增加了一个*func*这个形参，当测试函数的形参与*@pytest.fixture*这个装饰器装饰的函数同名时，将自动运行夹具并将返回值传递给函数的形参，因此我们可以通过这样的方式来通过一个公共的函数为所有的的测试函数提供实例，结果如下
+![alt text](image-3.png)
+到此，我们对于python的基础知识到此结束，接下来是进阶和框架内容，不积跬步，无以至千里；继续努力！！
