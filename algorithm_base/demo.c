@@ -1,13 +1,15 @@
 #include<stdio.h>
-int main(){
-    for(int i = 0; i < 10; i++){
-        for(int j = 0; j < 10; j++){
-            printf("*");
-            if(i == 5 && j == 5){
-                break;
-            }
-        }
-        printf("\n");
-    }
-    return 0;
+int mod(int a, int b){
+    return a % b;
+}
+
+int add(int a, int b){
+    int res = mod(a, b);
+    return res + b;
+}
+
+void main(){
+    int a = 2;
+    int b = 3;
+    int c = add(a, b);
 }
