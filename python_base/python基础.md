@@ -654,3 +654,108 @@ def test_first_mid_last_name_upper(func):
 上述代码中我们使用*@pytest.fixture*这个装饰器，同时两个函数增加了一个*func*这个形参，当测试函数的形参与*@pytest.fixture*这个装饰器装饰的函数同名时，将自动运行夹具并将返回值传递给函数的形参，因此我们可以通过这样的方式来通过一个公共的函数为所有的的测试函数提供实例，结果如下
 ![alt text](image-3.png)
 到此，我们对于python的基础知识到此结束，接下来是进阶和框架内容，不积跬步，无以至千里；继续努力！！
+# python数据模型
+关于python数据模型，其实个人理解上更倾向于对于python构建类的一个框架，基于python语言特性的运用，写出更加**python风格**的代码是python数据模型学习的目的
+## 特殊方法
+python中有着一些特殊方法，这些方法名称的首尾都用双下划线标记，名称有很多“双下方法”，“魔术方法”等等，本文中称之为**双下方法**；双下方法与普通方法的不同之处在于：我们一般不会直接显示的调用双下方法，双下方法通常都是被其他普通方法间接调用的，即使是在元编程中，我们也很少直接显示调用，除了"\__init__"方法，我通常通过他来初始化父类<br>
+特殊方法，与其说是方法，在我看来，他更像是一系列接口，一系列描述python语法特性的接口，通过特殊方法的实现，我们可以很轻松的让自己设计的类得到python语法和基础库的支持，下面看一个例子
+```python
+import collections
+import random
+
+# 定义一个名为Card的具名元祖，用来表示一张扑克牌的花色和点数
+Card = collections.namedtuple('Card', ('rank', 'suit'))
+
+
+class FrenchDeck:
+    ranks = [str(n) for n in range(2, 11)] + list('JQKA')
+    suits = ['spades', 'diamonds', 'clubs', 'hearts']
+
+    def __init__(self) -> None:
+        self.__cards = [Card(rank, suit) for rank in self.ranks
+                        for suit in self.suits]
+
+    def __getitem__(self, position: int):
+        return self.__cards[position]
+
+    def __len__(self):
+        return len(self.__cards)
+
+
+if __name__ == "__main__":
+    demo = FrenchDeck()
+    print(demo[1])
+    print(len(demo))
+    print(random.choice(demo))
+    print(demo[:3])
+```
+不要小看上面的例子，上面的例子中我们创建了一个**FrenchDeck**类，这个类除了打印和获取长度以外，还支持了通过random来随机抽取，以及python的切片，这一切都归功于我们所实现的"\__len__"和"\__getitem__"这两个特殊方法，得益于特殊方法的实现，自定义的FrenchDeck类获得了python核心库以及语法的支持，天然的能够通过random进行随机抽取，能够进行切片<br>
+所以我们能够得出结论，特殊方法的实现，能够让我们得到python核心库和语法的支持，从而避免重复造轮子<br> 
+关于特殊方法的调用，我们前文已经说过，我们极少会直接显示的调用特殊方法，那么特殊方法是给谁调用的呢？答案是解释器，python解释器会自动的调用特殊方法。<br>
+PS：len并不是特殊方法，得益于底层的C语言结构体中已经有一个属性存放了元素数量，因此，当我们调用len时，实际上时直接取结构体数据的，这样的效率更高，所以将len当做是运算符也许更加贴近<br>
+上面通过一个例子展示了特殊方法实现带来的好处，那么此处顺理成长的总结一下特殊方法的实现的常见用途有：
+* 模拟数值类型
+* 对象布尔值
+* 对象字符串表现形式
+* 实现容器
+
+下面针对上面所说的用途举个向量的例子
+```python
+import math
+import doctest
+
+
+class Vector:
+    """
+    向量类
+    加法::
+        >>> v1 = Vector(1, 2)
+        >>> v2 = Vector(3, 4)
+        >>> v1 + v2
+        Vector(4, 6)
+
+    绝对值::
+        >>> v = Vector(3, 4)
+        >>> abs(v)
+        5.0
+
+    标量积::
+        >>> v = Vector(3, 4)
+        >>> n = 3
+        >>> v * n
+        Vector(9, 12)
+    """
+    def __init__(self, x=0, y=0) -> None:
+        self.x = x
+        self.y = y
+
+    def __abs__(self):
+        return math.hypot(self.x, self.y)
+
+    def __bool__(self):
+        return bool(abs(self))
+
+    def __repr__(self) -> str:
+        return f"Vector({self.x}, {self.y})"
+
+    def __add__(self, other):
+        x = self.x + other.x
+        y = self.y + other.y
+        return Vector(x, y)
+
+    def __mul__(self, scalar):
+        return Vector(self.x * scalar, self.y * scalar)
+
+
+if __name__ == "__main__":
+    doctest.testmod()
+```
+上述代码涉及"\__abs__"、“\__bool__”、“\__repr__”、“\__add__”、“\__mul__”五中特殊方法，他们的作用分别是：
+* abs: 取模（绝对值），对应abs()，abs和len一样当做一元运算符
+* bool: 获取布尔值，常用于条件判断（类似于if {object}）
+* repr: 对象的字符表达形式，如果不实现，那会打印出对象的指针信息，\__repr__和\__str__都可以用来实现对象的字符串表达形式，当一个类没有实现str时，则会使用repr方法，str方法更多的用于print，也就是控制台打印，因此，没有特殊要求，我们应当采用repr方法，这是一个好的喜欢
+* add: +运算符
+* mul: *运算符
+
+通过上面的例子，我们利用特殊方法实现了运算符重载等需求，同时，我们注意到我们创建了一种新的数据类型Vector，他和其他已有的数字类型一样，支持加法、惩罚、打印内容等，这些都归功于我们对于特殊方法的实现<br>
+通过上面的例子我们可以体会到实现特殊方法所带来的好处，特殊方法的实现使得自定义的类受到python核心库以及语法的支持，避免重复造轮子的同时提高效率；此外，由于特殊方法是事先定义好的，这也意味着，只要我们都遵守这样的编码风格，我们可以很顺利的理解别人的代码以及根据这些方法猜测出新特性的使用方式，这是非常方便的
